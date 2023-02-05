@@ -23,6 +23,7 @@ module.exports = {
       .setDescription(`${user.username}`)
       .setColor(app.bot.color)
       .setImage(avatar)
+      .setFooter({text: `Command : ${message.author.username}#${message.author.discriminator}`})
 
       message.reply({ embeds: [e], components: [b] })
       

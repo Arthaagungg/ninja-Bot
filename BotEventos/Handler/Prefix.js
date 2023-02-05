@@ -1,15 +1,20 @@
 const client = require("../../index");
 const dc = require("discord.js");
 const app = require('../../app.json');
-const db = require('quick.db');
+const schema = require("../../Structures/Schemas/prefix-guild");
 
-client.on(`messageCreate`, async (message) => { //Créditos Ferinha. 
+client.on(`messageCreate`, async (message) => { 
 
     if(!message.guild) return;
     if(message.author.bot) return;
 
-    let prefix =  db.get(`prefixo-${message.guild?.id}`) || app.bot.prefixo;
-  
+    let prefix = await schema.findOne({GuildId: message.guild.id})
+    if (!prefix) {
+      prefix = "!!";
+    }else{
+      prefix = prefix.Prefix;
+    }
+
     if(message.author.bot) return;
     if(message.channel.type === 1) return;
     if(!message.content.startsWith(prefix)) return;
@@ -31,14 +36,6 @@ client.on(`messageCreate`, async (message) => { //Créditos Ferinha.
       Pcomando.run(client, message, args, app);
 
   } catch (e) { 
-    
-    console.log(e)
-
-    const e1 = new dc.EmbedBuilder()
-    .setDescription(`${app.emoji.nao} Não foi encontrado nenhum comando com o nome: \`${cmd}\`.`)
-    .setColor(app.bot.color)
-
-    message.reply({ embeds: [e1] })
   }
 
 });

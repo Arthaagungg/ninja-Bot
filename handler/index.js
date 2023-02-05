@@ -48,9 +48,9 @@ client.on("ready", async() => {
 
     server.commands.set(ArgsScommands);
 
-    console.log(chalk.hex(`#78807f`).bold(`(Slash) > Os comandos foram carregados em ${server.name}.`))
+    console.log(chalk.hex(`#78807f`).bold(`(Slash) > Perintah-perintah dimuat ke ${server.name}.`))
     } catch(e) {
-      console.log(chalk.hex(`#c72230`).bold(`(Slash) > Não foi possível carregar os comandos em ${server.name}.`));
+      console.log(chalk.hex(`#c72230`).bold(`(Slash) > Tidak dapat memuat perintah di ${server.name}.`));
       process.exit();
     }
   
@@ -61,9 +61,9 @@ client.on("ready", async() => {
 
     client.application.commands.set(ArgsScommands);
 
-    console.log(chalk.hex(`#78807f`).bold(`(Slash) > Os comandos foram carregados globalmente.`))
+    console.log(chalk.hex(`#78807f`).bold(`(Slash) > Perintah dimuat secara global.`))
     } catch(e) {
-      console.log(chalk.hex(`#c72230`).bold(`(Slash) > Não foi possível carregar os comandos globalmente.`));
+      console.log(chalk.hex(`#c72230`).bold(`(Slash) > Tidak dapat memuat perintah secara global.`));
       process.exit();
     }
 

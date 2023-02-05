@@ -1,13 +1,16 @@
 const client = require("../../index");
 const dc = require('discord.js');
 const chalk = require('chalk');
-const app = require('../../app.json');
+const os = require('os');
 
 client.on(`ready`, async() => {
 
   //Atividade & Status.
-	const atividade = [{name: `Não sei o que colocar.`, type: 0}, {name: `Também não sei o que colocar.`, type: 3}, {name: `Dev: balah7  💔`, type: 2}]; //Mudar "name" para o seu status. Caso queira mais types: https://discord-api-types.dev/api/discord-api-types-v9/enum/ActivityType
-	const status = [`online`, `idle`, `dnd`]; //online 🟢, idle 🟡, dnd 🔴, invisible ⚫.
+	const atividade = [
+	{name: `Lagi Main mobile lejend sama poke-poke`, type: 0}, 
+	{name: `Created by Abdul#5201`, type: 3},
+	{name: `Sedang Menggalau`, type: 2}];
+	const status = [`dnd`, `dnd`, `dnd`]; 
 
 	let random1 = 0;
 
@@ -29,7 +32,10 @@ client.on(`ready`, async() => {
 
     //Bot online.
 
-    console.log(chalk.hex(`#07ff03`).bold(`(Bot) > Código conectado em ${client.user.tag}.`))
-    console.log(chalk.hex(`#0c02cc`).bold(`(Bot Status)\n> ${client.guilds.cache.size} Servidores.\n> ${client.channels.cache.size} Canais.\n> ${client.users.cache.size} Usuários.`))
+	console.log(os.totalmem());
+	console.log(os.freemem());
+	console.log(os.cpus().length);
+    console.log(chalk.hex(`#07ff03`).bold(`(Bot) > Bot Terhubung ke ${client.user.tag}.`))
+    console.log(chalk.hex(`#0c02cc`).bold(`(Bot Status)\n> ${client.guilds.cache.size} Server.\n> ${client.channels.cache.size} Saluran.\n> ${client.users.cache.size} Members.`))
 
 });

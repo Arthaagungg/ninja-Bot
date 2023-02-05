@@ -1,0 +1,50 @@
+const dc = require('discord.js');
+const schema = require("../../Structures/Schemas/voiceMBA");
+
+module.exports = {
+    name: "set-mba",
+    description: "Setting Bot Avalible Music",
+    type: 1,
+    options: [{name: 'prefix', type: 7, description: 'Input Prefix', required: true}],
+
+
+    run: async (client, interaction) => {
+        let i = 0;
+        const sendembed = new dc.EmbedBuilder()
+        .setTitle("List of bot with specific role")
+        let currentPage = 0;
+        let bots = [];
+        let intervalId;
+        await interaction.reply({content: 'Sukses Setup BMA', ephemeral: true });
+        const messageembed = await interaction.channel.send({ embeds: [sendembed] })
+            .then(msg => {
+                message = msg;
+                const newVerif = schema.create({
+                    GuildId: message.guild.id,
+                    messageID: message.id
+                });
+                setInterval(() => {
+                    i++;
+                    
+            const roleId = "1064037181636751490";
+            let botWithSpecificRole = client.guilds.cache.flatMap(guild => {
+                return guild.members.cache.filter(m => m.user.bot && m.roles.cache.has(roleId))
+            });
+            bots = botWithSpecificRole.filter(bot => bot.voice.channel)
+                              .map(bot => `<a:silng:1067394455516225616> : ${bot.nickname}`)
+                              .concat(botWithSpecificRole.filter(bot => !bot.voice.channel)
+                              .map(bot => `<a:ckls:1067394449472245770> : ${bot.nickname}`));
+            const embed = new dc.EmbedBuilder()
+            .setTitle("List bot music avalible")
+            .setDescription(bots.join('\n')+ "\n***Note :***\n <a:ckls:1067394449472245770> Bot dapat di gunakan.\n <a:silng:1067394455516225616> Bot tidak dapat di gunakan.")
+            .setColor("Random");
+            
+
+            message.edit({ embeds: [embed] }).then(() => {
+                
+            })
+                }, 10000);
+            });
+    }
+    
+};
