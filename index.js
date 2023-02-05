@@ -17,7 +17,7 @@ require('dotenv').config();
 const chalk = require('chalk');
 
 //Médoto de login do bot, tanto no .env tanto no .json
-client.login(process.env.tokenbot).then(() => {
+client.login(process.env.TOKEN).then(() => {
     mongoose(client, color);
 }).catch(err => {
   console.log(`${color.bold.red(`[INDEX ERRORS]`)}` + `${err}`.bgRed);
