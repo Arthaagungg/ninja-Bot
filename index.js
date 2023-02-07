@@ -2,7 +2,7 @@ const dc = require('discord.js');
 const { mongoose } = require("./Structures/Handlers/mongoDB.js");
 const color = require("colors");
 const client = new dc.Client({ intents: 3276799, partials: [dc.Partials.Channel, dc.Partials.User, dc.Partials.Message] });
-
+const keepAlive = require(`./server`);
 module.exports = client;
 
 client.slashCommands = new dc.Collection();
@@ -22,6 +22,7 @@ client.login(process.env.TOKEN).then(() => {
 }).catch(err => {
   console.log(`${color.bold.red(`[INDEX ERRORS]`)}` + `${err}`.bgRed);
 });
+keepAlive();
 
 //Anticrash para o bot não desligar caso haja um erro.
 process.on('uncaughtException', async(error, origin) => {
