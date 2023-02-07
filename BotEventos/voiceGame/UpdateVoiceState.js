@@ -7,11 +7,10 @@ const schemaInfoVoice = require("../../Structures/Schemas/InfoVoice");
 const app = require("../../app.json");
 let voiceManager = new Collection();
 
-client.on(`voiceStateUpdate`, async ( oldState, newState) => {
+client.on(`voiceStateUpdate`, async (oldState, newState) => {
     const { member, guild } = oldState;
     const newChannel = newState.channel;
     const oldChannel = oldState.channel;
-    let GetVoiceChannel = await schemaVoiceChannel.findOne({ GuildId: guild.id })
     let data = await schemaVoiceGame.findOne({ GuildId: guild.id })
     if (!data) return;
     if (data) {
@@ -24,42 +23,45 @@ client.on(`voiceStateUpdate`, async ( oldState, newState) => {
         }
     }
     const jointocreate = voiceManager.get(member.id);
-    if(jointocreate && oldChannel.id === jointocreate && (!newChannel || newChannel.id !== jointocreate)){
-    const members = oldChannel?.members
-        .filter((m) => !m.user.bot)
-        .map((m) => m.id)
-    if (
-        jointocreate &&
-        oldChannel.id === jointocreate &&
-        (!newChannel || newChannel.id !== jointocreate)
-    ) {
-        if (members.length !== 0) {
-            let randomID = members[Math.floor(Math.random() * members.length)];
-            let randomMember = guild.members.cache.get(randomID);
-            randomMember.voice.setChannel(oldChannel).then((v) => {
-                oldChannel.setName(`乂┊${randomMember.user.username} Vc`).catch((e) => null);
-            })
+    if (jointocreate && oldChannel.id === jointocreate && (!newChannel || newChannel.id !== jointocreate)) {
+        const members = oldChannel?.members
+            .filter((m) => !m.user.bot)
+            .map((m) => m.id)
+        if (
+            jointocreate &&
+            oldChannel.id === jointocreate &&
+            (!newChannel || newChannel.id !== jointocreate)
+        ) {
+            if (members.length !== 0) {
+                let randomID = members[Math.floor(Math.random() * members.length)];
+                let randomMember = guild.members.cache.get(randomID);
+                randomMember.voice.setChannel(oldChannel).then((v) => {
+                    oldChannel.setName(`乂┊${randomMember.user.username} Vc`).catch((e) => null);
+                })
 
-            voiceManager.set(member.id, null)
-            voiceManager.set(randomMember.id, oldChannel.id)
-            
-            const UpdateInfoChannel = await schemaInfoVoice.findOneAndUpdate({
-                GuildId: guild.id,
-                ChannelId: oldChannel.id,
-                OwnerID: randomMember,
-            });
-        } else {
-            voiceManager.set(member.id, null)
-            oldChannel.delete().catch((e) => null)
-            
-    let InfoChannel = await schemaInfoVoice.findOneAndDelete({ ChannelId: oldChannel.id });
+                voiceManager.set(member.id, null)
+                voiceManager.set(randomMember.id, oldChannel.id)
+
+                const UpdateInfoChannel = await schemaInfoVoice.findOneAndUpdate({
+                    GuildId: guild.id,
+                    ChannelId: oldChannel.id,
+                    OwnerID: randomMember,
+                });
+            } else {
+                voiceManager.set(member.id, null)
+                oldChannel.delete().catch((e) => null)
+
+                let InfoChannel = await schemaInfoVoice.findOneAndDelete({ ChannelId: oldChannel.id });
+
+            }
 
         }
+    }
 
-    }
-    }
+    let GetVoiceChannel = await schemaVoiceChannel.findOne({ GuildId: guild.id })
+    if (!GetVoiceChannel) return;
     if (oldChannel !== newChannel && newChannel && newChannel.id === GetVoiceChannel.CreateVoice) {
-        const { ViewChannel, SendMessages, Speak, ReadMessageHistory, Connect,ManageChannels } = PermissionFlagsBits;
+        const { ViewChannel, SendMessages, Speak, ReadMessageHistory, Connect, ManageChannels } = PermissionFlagsBits;
         if (!GetVoiceChannel) return;
         if (GetVoiceChannel) {
             const voiceChannelId = GetVoiceChannel.CreateVoice;
@@ -102,7 +104,7 @@ client.on(`voiceStateUpdate`, async ( oldState, newState) => {
                 })
             }
         }
-        
+
     }
 
 

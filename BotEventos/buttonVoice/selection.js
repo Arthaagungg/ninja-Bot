@@ -27,7 +27,7 @@ client.on(`interactionCreate`, async (interaction) => {
                     Display = "Rotterdam";
                 } else if (category === "russia") {
                     Display = "Russia";
-                } else if (category === "Singapore") {
+                } else if (category === "singapore") {
                     Display = "Singapore";
                 } else if (category === "south-korea") {
                     Display = "South Korea";
@@ -123,7 +123,7 @@ client.on(`interactionCreate`, async (interaction) => {
                     .setDescription(`<:region:1068276369542369330> | Berhasil merubah region menjadi **${Display}**.`)
                 await interaction.update({ embeds: [embed], components: [] });
             }
-            
+
             else if (interaction.customId === "target-transfer") {
                 const target = interaction.guild.members.cache.get(interaction.values[0]);
                 member.voice.channel.setName(`乂┊${target.user.username} Vc`).then(async (channel) => {
@@ -133,8 +133,8 @@ client.on(`interactionCreate`, async (interaction) => {
                             ChannelId: member.voice.channel.id,
                             OwnerID: target,
                         });
-                        
-                    voiceManager.set(target.id, member.voice.channel.id)
+
+                        voiceManager.set(target.id, member.voice.channel.id)
                     })
                 });
                 const embed = new EmbedBuilder()

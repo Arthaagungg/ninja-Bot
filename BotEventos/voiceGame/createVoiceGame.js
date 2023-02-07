@@ -36,7 +36,7 @@ client.on(`interactionCreate`, async (interaction) => {
                     const voiceChannelId = data.CreateVoice;
                     const textChannel = client.channels.cache.get(voiceChannelId);
                     const parentChannel = textChannel.parent;
-                    
+
                     if (member.voice.channel && member.voice.channel.id === voiceChannelId) {
                         const voiceChannel = await guild.channels.create({
                             name: `🎮┊${NameChannel}`,
@@ -47,17 +47,17 @@ client.on(`interactionCreate`, async (interaction) => {
                         voiceManager.set(member.id, voiceChannel.id);
                         member.voice.setChannel(voiceChannel)
                         const Ready = new EmbedBuilder()
-                        .setDescription(`✔ Berhasil membuat Voice Game. <#${voiceChannel.id}>`)
-                        .setColor("Green")
+                            .setDescription(`✔ Berhasil membuat Voice Game. <#${voiceChannel.id}>`)
+                            .setColor("Green")
                         await interaction.reply({ ephemeral: true, embeds: [Ready] });
-                    }else{
+                    } else {
                         const Error = new EmbedBuilder()
-                        .setDescription(`❌ Silahkan masuk terlebih dahulu ke dalam voice room <#${voiceChannelId}>`)
-                        .setColor("Red")
+                            .setDescription(`❌ Silahkan masuk terlebih dahulu ke dalam voice room <#${voiceChannelId}>`)
+                            .setColor("Red")
                         await interaction.reply({ ephemeral: true, embeds: [Error] });
                     }
-                    
-                 
+
+
                 }
 
 
