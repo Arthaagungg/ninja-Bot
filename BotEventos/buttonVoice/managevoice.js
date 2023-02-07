@@ -44,73 +44,73 @@ client.on(`interactionCreate`, async (interaction) => {
                                                 label: 'Brazil',
                                                 value: 'brazil',
                                                 display: 'Brazil',
-                                                emoji: '<:example:1068054923394158643>',
+                                                emoji: '<:brazil:1072429786384838706>',
                                             },
                                             {
                                                 label: 'Hongkong',
                                                 value: 'hongkong',
-                                                emoji: '<:example:1068054923394158643>',
+                                                emoji: ' <:hongkong:1072429793288667186>',
                                             },
                                             {
                                                 label: 'India',
                                                 value: 'india',
-                                                emoji: '<:example:1068054923394158643>',
+                                                emoji: '<:indiaindia:1072429807809351770>',
                                             },
                                             {
                                                 label: 'Japan',
                                                 value: 'japan',
-                                                emoji: '<:example:1068054923394158643>',
+                                                emoji: ' <:japan:1072429818542563338>',
                                             },
                                             {
                                                 label: 'Rotterdam',
                                                 value: 'rotterdam',
-                                                emoji: '<:example:1068054923394158643>',
+                                                emoji: ' <:rotterdam:1072429824502665307>',
                                             },
                                             {
                                                 label: 'Russia',
                                                 value: 'russia',
-                                                emoji: '<:example:1068054923394158643>',
+                                                emoji: '<:russia:1072429840285839401>',
                                             },
                                             {
                                                 label: 'Singapore',
                                                 value: 'singapore',
-                                                emoji: '<:example:1068054923394158643>',
+                                                emoji: '<:singapore:1072429853997011035> ',
                                             },
                                             {
                                                 label: 'South Korea',
                                                 value: 'south-korea',
-                                                emoji: '<:example:1068054923394158643>',
+                                                emoji: '<:southkorea:1072431020202278922>',
                                             },
                                             {
                                                 label: 'South Africa',
                                                 value: 'southafrica',
-                                                emoji: '<:example:1068054923394158643>',
+                                                emoji: '<:southafrica:1072429866386997258>',
                                             },
                                             {
                                                 label: 'Sydney',
                                                 value: 'sydney',
-                                                emoji: '<:example:1068054923394158643>',
+                                                emoji: '<:sydney:1072429878693072956>',
                                             },
                                             {
                                                 label: 'Us central',
                                                 value: 'us-central',
-                                                emoji: '<:example:1068054923394158643>',
+                                                emoji: '<:us:1072429895285756024>',
                                             },
                                             {
                                                 label: 'Us East',
                                                 value: 'us-east',
-                                                emoji: '<:example:1068054923394158643>',
+                                                emoji: '<:us:1072429895285756024>',
                                             },
-
+                
                                             {
                                                 label: 'Us South',
                                                 value: 'us-south',
-                                                emoji: '<:example:1068054923394158643>',
+                                                emoji: '<:us:1072429895285756024>',
                                             },
                                             {
                                                 label: 'US west',
                                                 value: 'us-west',
-                                                emoji: '<:example:1068054923394158643>',
+                                                emoji: '<:us:1072429895285756024>',
                                             },
 
                                         ),

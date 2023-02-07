@@ -84,7 +84,7 @@ const schema = require("../../Structures/Schemas/voice-game");
             }).then(async (channel) => {
                 const CreateGame = new EmbedBuilder()
                     .setTitle(`Room Setting Voice - ${guild.name} Server !`)
-                    .setDescription(`Room Untuk Setting Voice Game Mengenai Bitrate & Region. \n Untuk Menggunakannya Silahkan Reaction Emoji Di Bawah ! \n\n <:example:1068054923394158643> - Berfungsi Untuk Mengganti **Region Room** Voice Game. \n <:example:1068054923394158643> - Berfungsi Untuk Mengganti **Bitrate** Voice Gaming. `)
+                    .setDescription(`Room Untuk Setting Voice Game Mengenai Bitrate & Region. \n Untuk Menggunakannya Silahkan Reaction Emoji Di Bawah ! \n\n <:region:1068276369542369330> - Berfungsi Untuk Mengganti **Region Room** Voice Game. \n <:bitrate:1068276406557102201> - Berfungsi Untuk Mengganti **Bitrate** Voice Gaming. `)
                     .setColor("Green")
                     .setThumbnail(guild.iconURL({ dynamic: true }))
                     .setFooter({ text: `Copyright ©2023 - ${guild.name}`, iconURL: guild.iconURL() })
@@ -92,8 +92,8 @@ const schema = require("../../Structures/Schemas/voice-game");
 
                 const button = new ActionRowBuilder()
                     .addComponents(
-                        new ButtonBuilder().setCustomId('region').setLabel("Ganti Region").setStyle(ButtonStyle.Secondary).setEmoji('<:example:1068054923394158643>'),
-                        new ButtonBuilder().setCustomId('bitrate').setLabel("Ganti Bitrate").setStyle(ButtonStyle.Secondary).setEmoji('<:example:1068054923394158643>')
+                        new ButtonBuilder().setCustomId('region').setLabel("Ganti Region").setStyle(ButtonStyle.Secondary).setEmoji('<:region:1068276369542369330>'),
+                        new ButtonBuilder().setCustomId('bitrate').setLabel("Ganti Bitrate").setStyle(ButtonStyle.Secondary).setEmoji('<:bitrate:1068276406557102201>')
                     )
                 channel.send({
                     embeds: ([CreateGame]),
@@ -128,31 +128,31 @@ const schema = require("../../Structures/Schemas/voice-game");
                                     label: 'Mobile Legends: Bang Bang',
                                     description: 'Room Limit : 5 User.',
                                     value: 'ml',
-                                    emoji: '<:example:1068054923394158643>/',
+                                    emoji: '<:mobilelegend:1068507365420302397>',
                                 },
                                 {
                                     label: 'Among Us',
                                     description: 'Room Limit : 15 User.',
                                     value: 'among',
-                                    emoji: '<:example:1068054923394158643>',
+                                    emoji: '<:Impostor:1066235620906770562>',
                                 },
                                 {
                                     label: 'PUBG Mobile',
                                     description: 'Room Limit : 4 User.',
                                     value: 'pubg',
-                                    emoji: '<:example:1068054923394158643>',
+                                    emoji: '<:pubg:1067913084192161833>',
                                 },
                                 {
                                     label: 'Valorant',
                                     description: 'Room Limit : 5 User.',
                                     value: 'valorant',
-                                    emoji: '<:example:1068054923394158643>',
+                                    emoji: '<:valorant:1068510678333280416>',
                                 },
                                 {
                                     label: 'Pokemon Unite',
                                     description: 'Room Limit : 5 User.',
                                     value: 'pokemon',
-                                    emoji: '<:example:1068054923394158643>',
+                                    emoji: '<:pokemon:1067933243615215756>',
                                 },
                             ),
                     );

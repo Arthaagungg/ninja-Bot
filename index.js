@@ -10,7 +10,7 @@ client.commands = new dc.Collection();
 client.aliases = new dc.Collection();
 client.buttons = new dc.Collection();
 client.StringSelectMenu = new dc.Collection();
-client.voiceGenerator = new dc.Collection();
+dc.Client.voiceManager = new dc.Collection();
 // Requires
 require('./handler')(client);
 require('dotenv').config();

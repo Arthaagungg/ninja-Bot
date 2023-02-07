@@ -3,7 +3,6 @@ const dc = require("discord.js");
 const app = require('../../app.json');
 
 client.on(`interactionCreate`, async(interaction) =>{
-  if(!interaction.member.permissions.has(dc.PermissionsBitField.Flags.Administrator)) return interaction.reply({ content: `Tidak ada akses untuk menggunakan command ini.`, ephemeral: true})
   const Scomando = client.slashCommands.get(interaction.commandName);
 
   if (interaction.type === 4) {
