@@ -11,6 +11,7 @@ client.on(`interactionCreate`, async (interaction) => {
     const { ViewChannel, SendMessages, AddReactions, ReadMessageHistory, Connect } = PermissionFlagsBits;
     const voiceChannel = member.voice.channel;
     const Embed = new EmbedBuilder().setColor("Green");
+    
     let Parent = await schemaVoiceChannel.findOne({ Parent: channel.parentId });
     if (!Parent) return;
     if (!voiceChannel) return interaction.reply({ embeds: [Embed.setTitle("Tidak Ada Dalam Voice Temporary").setDescription("Anda Tidak Berada Dala Voice Temporary untuk menggunakan ini silahkan untuk membuat Voice Temporary.").setColor("Red")], ephemeral: true });
@@ -18,20 +19,20 @@ client.on(`interactionCreate`, async (interaction) => {
     if (dataRoom.OwnerID !== member.id) return interaction.reply({ embeds: [Embed.setTitle("Anda Bukan Pemilik Voice Channel ini.").setDescription("Hanya Pemilik Voice Channel ini yang dapat melakukan setting voice.").setColor("Red")], ephemeral: true });
     if (interaction.isButton()) {
         if (interaction.customId === "lock-voice") {
-            await voiceChannel.permissionOverwrites.edit(app.role.role_default, { Connect: false });
-            await interaction.reply({ embeds: [Embed.setDescription("<:lock:1068276348436623370> | Berhasil Mengunci Voice Channel.")], ephemeral: true, expiresIn: "1s" });
+             voiceChannel.permissionOverwrites.edit(app.role.role_default, { Connect: false });
+            interaction.reply({ embeds: [Embed.setDescription("<:lock:1068276348436623370> | Berhasil Mengunci Voice Channel.")], ephemeral: true, expiresIn: "1s" });
         }
         if (interaction.customId === "unlock-voice") {
-            await voiceChannel.permissionOverwrites.edit(app.role.role_default, { Connect: true });
-            await interaction.reply({ embeds: [Embed.setDescription("<:unlock:1068276353092288563> | Berhasil membuka kunci Voice Channel.")], ephemeral: true, expiresIn: "1s" });
+             voiceChannel.permissionOverwrites.edit(app.role.role_default, { Connect: true });
+            interaction.reply({ embeds: [Embed.setDescription("<:unlock:1068276353092288563> | Berhasil membuka kunci Voice Channel.")], ephemeral: true, expiresIn: "1s" });
         }
         if (interaction.customId === "hide-voice") {
             await voiceChannel.permissionOverwrites.edit(app.role.role_default, { ViewChannel: false });
-            await interaction.reply({ embeds: [Embed.setDescription("<:hide:1068276400752164884> | Berhasil Menyembunyikan Voice Channel.")], ephemeral: true, expiresIn: "1s" });
+            interaction.reply({ embeds: [Embed.setDescription("<:hide:1068276400752164884> | Berhasil Menyembunyikan Voice Channel.")], ephemeral: true, expiresIn: "1s" });
         }
         if (interaction.customId === "unhide-voice") {
             await voiceChannel.permissionOverwrites.edit(app.role.role_default, { ViewChannel: true });
-            await interaction.reply({ embeds: [Embed.setDescription("<:unhide:1068276387280064592> | Berhasil Menampilkan Voice Channel.")], ephemeral: true, expiresIn: "1s" });
+            interaction.reply({ embeds: [Embed.setDescription("<:unhide:1068276387280064592> | Berhasil Menampilkan Voice Channel.")], ephemeral: true, expiresIn: "1s" });
         }
         if (interaction.customId === "limit-voice") {
             const modal = new ModalBuilder()
@@ -62,7 +63,7 @@ client.on(`interactionCreate`, async (interaction) => {
                 description: `${member.user.username}#${member.user.discriminator}`,
                 value: member.id,
                 emoji: `<:user:1072360955964563587>`
-            }));
+            })).slice(0, 10);
 
             const row = new ActionRowBuilder()
                 .addComponents(

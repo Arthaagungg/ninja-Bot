@@ -2,11 +2,13 @@ const client = require("../../index");
 const { dc, ChannelType, GuildVoice, Collection, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
 const { connect } = require('mongoose');
 const schema = require("../../Structures/Schemas/voice-game");
+
+const app = require("../../app.json");
 let voiceManager = new Collection();
 
 client.on(`interactionCreate`, async (interaction) => {
     const { guild, member, customID, channel } = interaction;
-    const { ViewChannel, SendMessages, AddReactions, ReadMessageHistory, Connect } = PermissionFlagsBits;
+    const { ViewChannel, SendMessages, Speak, ReadMessageHistory, Connect, ManageChannels } = PermissionFlagsBits;
     if (interaction.isStringSelectMenu()) {
         const { guild, member, customID, channel } = interaction;
 
@@ -42,14 +44,29 @@ client.on(`interactionCreate`, async (interaction) => {
                             name: `🎮┊${NameChannel}`,
                             type: ChannelType.GuildVoice,
                             parent: parentChannel,
-                            userLimit: LimitChannel
+                            userLimit: LimitChannel,
+                            permissionOverwrites: [
+                                {
+                                    id: guild.id, //everyone
+                                    deny: [ViewChannel]
+                                },
+                                {
+                                    id: guild.roles.cache.get(app.role.role_default), //Default roleID
+                                    allow: [ViewChannel, Connect, Speak,],
+                                    deny: [ReadMessageHistory, SendMessages]
+                                },
+                                {
+                                    id: client.user.id, //Bot ID
+                                    allow: [ManageChannels],
+                                }
+                            ],
                         });
                         voiceManager.set(member.id, voiceChannel.id);
                         member.voice.setChannel(voiceChannel)
                         const Ready = new EmbedBuilder()
                             .setDescription(`✔ Berhasil membuat Voice Game. <#${voiceChannel.id}>`)
                             .setColor("Green")
-                        await interaction.reply({ ephemeral: true, embeds: [Ready] });
+                        interaction.reply({ ephemeral: true, embeds: [Ready] });
                     } else {
                         const Error = new EmbedBuilder()
                             .setDescription(`❌ Silahkan masuk terlebih dahulu ke dalam voice room <#${voiceChannelId}>`)

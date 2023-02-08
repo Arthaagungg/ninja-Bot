@@ -80,7 +80,7 @@ client.on(`interactionCreate`, async (interaction) => {
                     await interaction.reply({ embeds: [Embed.setDescription(`❌ Silahkan Isi Menit Mulai dari (1 - 24) Jam`).setColor("Red")], ephemeral: true });
 
                 } else {
-                    let TimeOut = time * 60000;
+                    let TimeOut = time * 60000 * 60;
                     await interaction.reply({ embeds: [Embed.setDescription(`<:bitrate:1068276406557102201> | Berhasil Setting Otomatis Disconnect Setelah **${time}jam**.`).setColor("Green")], ephemeral: true });
                     setTimeout(() => {
                         if (member.voice.channel) {

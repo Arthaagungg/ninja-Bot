@@ -71,6 +71,7 @@ client.on(`interactionCreate`, async (interaction) => {
                     .setDescription(`${member.user} mengundang anda untuk join voice !`)
                     .setColor("Random");
                 voiceChannel.send({ content: `${target}`, embeds: [Info] })
+                voiceChannel.permissionOverwrites.edit(target, {SendMessages :true , ReadMessageHistory :true});
                 const embed = new EmbedBuilder()
                     .setTitle(`Sukses.`)
                     .setColor("Green")
