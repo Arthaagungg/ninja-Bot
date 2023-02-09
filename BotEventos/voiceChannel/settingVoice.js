@@ -11,30 +11,60 @@ client.on(`interactionCreate`, async (interaction) => {
     const { ViewChannel, SendMessages, AddReactions, ReadMessageHistory, Connect } = PermissionFlagsBits;
     const voiceChannel = member.voice.channel;
     const Embed = new EmbedBuilder().setColor("Green");
-    
+
     let Parent = await schemaVoiceChannel.findOne({ Parent: channel.parentId });
     if (!Parent) return;
     if (!voiceChannel) return interaction.reply({ embeds: [Embed.setTitle("Tidak Ada Dalam Voice Temporary").setDescription("Anda Tidak Berada Dala Voice Temporary untuk menggunakan ini silahkan untuk membuat Voice Temporary.").setColor("Red")], ephemeral: true });
     let dataRoom = await schemaInfoVoice.findOne({ ChannelId: voiceChannel.id })
-    if (dataRoom.OwnerID !== member.id) return interaction.reply({ embeds: [Embed.setTitle("Anda Bukan Pemilik Voice Channel ini.").setDescription("Hanya Pemilik Voice Channel ini yang dapat melakukan setting voice.").setColor("Red")], ephemeral: true });
     if (interaction.isButton()) {
+        if (interaction.customId === "dc-voice") {
+
+            const modal = new ModalBuilder()
+                .setCustomId("autodc-modals")
+                .setTitle(`Otomatis Disconnect !`);
+
+            const getTime = new TextInputBuilder()
+                .setCustomId("inputTime")
+                .setLabel(`Isi Dengan Waktu:`)
+                .setPlaceholder("Contoh : 24")
+                .setRequired(true)
+                .setMaxLength(4)
+                .setStyle(TextInputStyle.Short);
+            const getSatuanTime = new TextInputBuilder()
+            .setCustomId("inputSatuan")
+            .setLabel(`Isi Dengan Satuan Waktu:`)
+            .setPlaceholder("Contoh : jam / menit !")
+            .setMaxLength(5)
+            .setRequired(true)
+            .setStyle(TextInputStyle.Short);
+            const Satuan = new ActionRowBuilder().addComponents(getSatuanTime);
+            const Time = new ActionRowBuilder().addComponents(getTime);
+            modal.addComponents(Time,Satuan);
+
+            await interaction.showModal(modal);
+        }
         if (interaction.customId === "lock-voice") {
-             voiceChannel.permissionOverwrites.edit(app.role.role_default, { Connect: false });
+            if (dataRoom.OwnerID !== member.id) return interaction.reply({ embeds: [Embed.setTitle("Anda Bukan Pemilik Voice Channel ini.").setDescription("Hanya Pemilik Voice Channel ini yang dapat melakukan setting voice.").setColor("Red")], ephemeral: true });
+            voiceChannel.permissionOverwrites.edit(app.role.role_default, { Connect: false });
             interaction.reply({ embeds: [Embed.setDescription("<:lock:1068276348436623370> | Berhasil Mengunci Voice Channel.")], ephemeral: true, expiresIn: "1s" });
         }
         if (interaction.customId === "unlock-voice") {
-             voiceChannel.permissionOverwrites.edit(app.role.role_default, { Connect: true });
+            if (dataRoom.OwnerID !== member.id) return interaction.reply({ embeds: [Embed.setTitle("Anda Bukan Pemilik Voice Channel ini.").setDescription("Hanya Pemilik Voice Channel ini yang dapat melakukan setting voice.").setColor("Red")], ephemeral: true });
+            voiceChannel.permissionOverwrites.edit(app.role.role_default, { Connect: true });
             interaction.reply({ embeds: [Embed.setDescription("<:unlock:1068276353092288563> | Berhasil membuka kunci Voice Channel.")], ephemeral: true, expiresIn: "1s" });
         }
         if (interaction.customId === "hide-voice") {
+            if (dataRoom.OwnerID !== member.id) return interaction.reply({ embeds: [Embed.setTitle("Anda Bukan Pemilik Voice Channel ini.").setDescription("Hanya Pemilik Voice Channel ini yang dapat melakukan setting voice.").setColor("Red")], ephemeral: true });
             await voiceChannel.permissionOverwrites.edit(app.role.role_default, { ViewChannel: false });
             interaction.reply({ embeds: [Embed.setDescription("<:hide:1068276400752164884> | Berhasil Menyembunyikan Voice Channel.")], ephemeral: true, expiresIn: "1s" });
         }
         if (interaction.customId === "unhide-voice") {
+            if (dataRoom.OwnerID !== member.id) return interaction.reply({ embeds: [Embed.setTitle("Anda Bukan Pemilik Voice Channel ini.").setDescription("Hanya Pemilik Voice Channel ini yang dapat melakukan setting voice.").setColor("Red")], ephemeral: true });
             await voiceChannel.permissionOverwrites.edit(app.role.role_default, { ViewChannel: true });
             interaction.reply({ embeds: [Embed.setDescription("<:unhide:1068276387280064592> | Berhasil Menampilkan Voice Channel.")], ephemeral: true, expiresIn: "1s" });
         }
         if (interaction.customId === "limit-voice") {
+            if (dataRoom.OwnerID !== member.id) return interaction.reply({ embeds: [Embed.setTitle("Anda Bukan Pemilik Voice Channel ini.").setDescription("Hanya Pemilik Voice Channel ini yang dapat melakukan setting voice.").setColor("Red")], ephemeral: true });
             const modal = new ModalBuilder()
                 .setCustomId("limit-modals")
                 .setTitle(`Pengaturan Limit Voice Channel !`);
@@ -47,12 +77,14 @@ client.on(`interactionCreate`, async (interaction) => {
                 .setMaxLength(2)
                 .setStyle(TextInputStyle.Short);
 
+   
             const Vlimit = new ActionRowBuilder().addComponents(vlimit);
             modal.addComponents(Vlimit);
 
             await interaction.showModal(modal);
         }
         if (interaction.customId === "invite-voice") {
+            if (dataRoom.OwnerID !== member.id) return interaction.reply({ embeds: [Embed.setTitle("Anda Bukan Pemilik Voice Channel ini.").setDescription("Hanya Pemilik Voice Channel ini yang dapat melakukan setting voice.").setColor("Red")], ephemeral: true });
             const embed = new EmbedBuilder()
                 .setTitle(`List Member`)
                 .setDescription(`Silahkan Pilih User Yang ingin anda Invite.`)
@@ -79,7 +111,7 @@ client.on(`interactionCreate`, async (interaction) => {
             }, 60000);
         }
         if (interaction.customId === "kick-voice") {
-
+            if (dataRoom.OwnerID !== member.id) return interaction.reply({ embeds: [Embed.setTitle("Anda Bukan Pemilik Voice Channel ini.").setDescription("Hanya Pemilik Voice Channel ini yang dapat melakukan setting voice.").setColor("Red")], ephemeral: true });
             const embed = new EmbedBuilder()
                 .setTitle(`List Member Voice Channel !`)
                 .setDescription(`Silahkan Pilih User Yang ingin anda Kick.`)
@@ -107,6 +139,7 @@ client.on(`interactionCreate`, async (interaction) => {
             }, 60000);
         }
         if (interaction.customId === "rename-voice") {
+            if (dataRoom.OwnerID !== member.id) return interaction.reply({ embeds: [Embed.setTitle("Anda Bukan Pemilik Voice Channel ini.").setDescription("Hanya Pemilik Voice Channel ini yang dapat melakukan setting voice.").setColor("Red")], ephemeral: true });
             const modal = new ModalBuilder()
                 .setCustomId("rename-modals")
                 .setTitle(`Pengaturan Mengubah Nama Voice Channel !`);
@@ -125,6 +158,7 @@ client.on(`interactionCreate`, async (interaction) => {
             await interaction.showModal(modal);
         }
         if (interaction.customId === "bitrate-voice") {
+            if (dataRoom.OwnerID !== member.id) return interaction.reply({ embeds: [Embed.setTitle("Anda Bukan Pemilik Voice Channel ini.").setDescription("Hanya Pemilik Voice Channel ini yang dapat melakukan setting voice.").setColor("Red")], ephemeral: true });
             const modal = new ModalBuilder()
                 .setCustomId("bitratevoice-modals")
                 .setTitle(`Pengaturan Bitrate`);
@@ -143,6 +177,7 @@ client.on(`interactionCreate`, async (interaction) => {
             await interaction.showModal(modal);
         }
         if (interaction.customId === "region-voice") {
+            if (dataRoom.OwnerID !== member.id) return interaction.reply({ embeds: [Embed.setTitle("Anda Bukan Pemilik Voice Channel ini.").setDescription("Hanya Pemilik Voice Channel ini yang dapat melakukan setting voice.").setColor("Red")], ephemeral: true });
             const Region = new EmbedBuilder()
                 .setTitle(`List Bitrate`)
                 .setDescription(`*Silahkan Pilih Region Untuk Mengganti Region Voice Channel Anda !*`)
@@ -234,8 +269,8 @@ client.on(`interactionCreate`, async (interaction) => {
                 interaction.editReply({ embeds: [Region.setDescription("Anda membutuhkan waktu terlalu lama untuk menyelesaikan tindakan ini").setTitle("Waktu Habis.")], components: [] });
             }, 60000);
         }
-        if(interaction.customId === "transfer-voice"){
-
+        if (interaction.customId === "transfer-voice") {
+            if (dataRoom.OwnerID !== member.id) return interaction.reply({ embeds: [Embed.setTitle("Anda Bukan Pemilik Voice Channel ini.").setDescription("Hanya Pemilik Voice Channel ini yang dapat melakukan setting voice.").setColor("Red")], ephemeral: true });
 
             const embed = new EmbedBuilder()
                 .setTitle(`List Member Voice Channel !`)
@@ -263,27 +298,8 @@ client.on(`interactionCreate`, async (interaction) => {
                 interaction.editReply({ embeds: [embed.setDescription("Anda membutuhkan waktu terlalu lama untuk menyelesaikan tindakan ini").setTitle("Waktu Habis.")], components: [] });
             }, 60000);
         }
-        if(interaction.customId === "info-voice"){
-
-        }
-        if(interaction.customId === "dc-voice"){
-            
-            const modal = new ModalBuilder()
-                .setCustomId("autodc-modals")
-                .setTitle(`Otomatis Disconnect !`);
-
-            const vautodc = new TextInputBuilder()
-                .setCustomId("inputAutodc")
-                .setLabel(`Isi Dengan Satuan Jam :`)
-                .setPlaceholder("Isi Sesuai waktu mulai dari (1 - 24) Jam")
-                .setRequired(true)
-                .setMaxLength(2)
-                .setStyle(TextInputStyle.Short);
-
-            const Vautodc = new ActionRowBuilder().addComponents(vautodc);
-            modal.addComponents(Vautodc);
-
-            await interaction.showModal(modal);
+        if (interaction.customId === "info-voice") {
+            if (dataRoom.OwnerID !== member.id) return interaction.reply({ embeds: [Embed.setTitle("Anda Bukan Pemilik Voice Channel ini.").setDescription("Hanya Pemilik Voice Channel ini yang dapat melakukan setting voice.").setColor("Red")], ephemeral: true });
         }
         //Batas
     }

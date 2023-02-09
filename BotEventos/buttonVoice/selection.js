@@ -127,7 +127,7 @@ client.on(`interactionCreate`, async (interaction) => {
 
             else if (interaction.customId === "target-transfer") {
                 const target = interaction.guild.members.cache.get(interaction.values[0]);
-                member.voice.channel.setName(`乂┊${target.user.username} Vc`).then(async (channel) => {
+                member.voice.channel.setName(`ℵ┊${target.user.username} Vc`).then(async (channel) => {
                     schemaInfoVoice.findOne({ ChannelId: member.voice.channel.id }, async (err, data) => {
                         const NewVoiceGame = await schema.findOneAndUpdate({
                             GuildId: guild.id,

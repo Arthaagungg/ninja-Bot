@@ -75,18 +75,23 @@ client.on(`interactionCreate`, async (interaction) => {
                 }
             }
             if (interaction.customId === "autodc-modals") {
-                let time = interaction.fields.getTextInputValue("inputAutodc");
-                if (time < 1 || time > 24) {
-                    await interaction.reply({ embeds: [Embed.setDescription(`❌ Silahkan Isi Menit Mulai dari (1 - 24) Jam`).setColor("Red")], ephemeral: true });
-
+                let Time = interaction.fields.getTextInputValue("inputTime");
+                let Satuan = interaction.fields.getTextInputValue("inputSatuan");
+                let AutoDc = 0;
+                if (Satuan === "jam" || Satuan === "Jam") {
+                    AutoDc = Time * 60000 * 60;
+                } else if (Satuan === "menit" || Satuan === "Menit") {
+                    AutoDc = Time * 60000;
                 } else {
-                    let TimeOut = time * 60000 * 60;
-                    await interaction.reply({ embeds: [Embed.setDescription(`<:bitrate:1068276406557102201> | Berhasil Setting Otomatis Disconnect Setelah **${time}jam**.`).setColor("Green")], ephemeral: true });
+                    await interaction.reply({ embeds: [Embed.setDescription(`❌ Format Tidak Sesuai. \n Contoh Format Yang benar :\n ⚫ 30 menit \n ⚫ 1 jam`).setColor("Red")], ephemeral: true });
+                }
+                if (AutoDc) {
+                    await interaction.reply({ embeds: [Embed.setDescription(`<:autodc:1068276343646715924> | Berhasil Setting Otomatis Disconnect Dengan Waktu **${Time} ${Satuan}**.`).setColor("Green")], ephemeral: true });
                     setTimeout(() => {
                         if (member.voice.channel) {
                             member.voice.setChannel(null);
                         }
-                    }, TimeOut);
+                    }, AutoDc);
                 }
             }
         } catch (err) {

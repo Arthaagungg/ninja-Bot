@@ -37,7 +37,7 @@ client.on(`voiceStateUpdate`, async (oldState, newState) => {
                 newChannel.permissionOverwrites.edit(member.id, { ReadMessageHistory: true, SendMessages: true });
             } else if (oldChannel !== newChannel && newChannel && newChannel.id === JointoCreateChannel) {
                 const voiceChannel = await guild.channels.create({
-                    name: `乂┊${AutoNameChannel} Vc`,
+                    name: `ℵ┊${AutoNameChannel} Vc`,
                     type: ChannelType.GuildVoice,
                     parent: newChannel.parent,
                     permissionOverwrites: [
@@ -97,7 +97,7 @@ client.on(`voiceStateUpdate`, async (oldState, newState) => {
                         let randomID = members[Math.floor(Math.random() * members.length)];
                         let randomMember = guild.members.cache.get(randomID);
                         randomMember.voice.setChannel(oldChannel).then((v) => {
-                            oldChannel.setName(`乂┊${randomMember.user.nickname || randomMember.user.username} Vc`).catch((e) => null);
+                            oldChannel.setName(`ℵ┊${randomMember.user.nickname || randomMember.user.username} Vc`).catch((e) => null);
                         });
                         voiceManager.set(member.id, null)
                         voiceManager.set(randomMember.id, oldChannel.id)
