@@ -94,6 +94,36 @@ client.on(`interactionCreate`, async (interaction) => {
                     }, AutoDc);
                 }
             }
+            if (interaction.customId === "embed-modals") {
+                let Title = interaction.fields.getTextInputValue("InputTitle");
+                let Desc = interaction.fields.getTextInputValue("InputDesc");
+                let Color = interaction.fields.getTextInputValue("InputColor");
+                let Image = interaction.fields.getTextInputValue("InputImage") || null;
+                let Thumnail = interaction.fields.getTextInputValue("InputThumnail");
+                if (Image && !Image.startsWith('http') ) return await interaction.reply({ content: "Link Image Tidak Sesuai.", ephemeral: true });
+                if (Thumnail && !Thumnail.startsWith('http') && !Thumnail === "guild") return await interaction.reply({ content: "Link Thumnail Tidak Sesuai.", ephemeral: true });
+                if(!Color)
+                {
+                    Color = `ffffff`;
+                }
+                if(Thumnail === "guild" || Thumnail === "Guild")
+                {
+                    Thumnail = interaction.guild.iconURL({ format: "png", dynamic: true });
+                }else if (Thumnail === ""){
+                    Thumnail = null;
+                }
+                const embed = new EmbedBuilder()
+                    .setTitle(Title)
+                    .setDescription(Desc)
+                    .setColor(`0x${Color}`)
+                    .setImage(Image)
+                    .setThumbnail(Thumnail)
+                    .setFooter({text: `Copyright ©2023 - ${guild.name}`, iconURL: interaction.guild.iconURL({ format: "png", dynamic: true }) })
+                    .setTimestamp(new Date());
+                await interaction.reply({content: "Embed Berhasil Di Buat.", ephemeral:true });
+                await channel.send({embeds: [embed]});
+            }
+
         } catch (err) {
             console.error(err);
         }

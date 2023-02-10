@@ -1,7 +1,16 @@
 const dc = require('discord.js');
 const { mongoose } = require("./Structures/Handlers/mongoDB.js");
 const color = require("colors");
-const client = new dc.Client({ intents: 3276799, partials: [dc.Partials.Channel, dc.Partials.User, dc.Partials.Message] });
+const client = new dc.Client({   
+  intents: [
+    dc.GatewayIntentBits.Guilds,
+    dc.GatewayIntentBits.GuildMessages,
+    dc.GatewayIntentBits.MessageContent,
+    dc.GatewayIntentBits.GuildMembers,
+    dc.GatewayIntentBits.DirectMessages,
+    dc.GatewayIntentBits.DirectMessageTyping,
+    dc.GatewayIntentBits.DirectMessageReactions],
+  intents: 3276799, partials: [dc.Partials.Channel, dc.Partials.User, dc.Partials.Message] });
 module.exports = client;
 
 client.slashCommands = new dc.Collection();

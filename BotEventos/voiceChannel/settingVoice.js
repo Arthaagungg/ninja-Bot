@@ -1,5 +1,5 @@
 const client = require("../../index");
-const { PermissionOverwrites, ChannelType, GuildVoice, Collection, PermissionFlagsBits, TextInputBuilder, TextInputStyle, InteractionType, ModalBuilder, EmbedBuilder, GuildMember, ActionRowBuilder, StringSelectMenuBuilder } = require('discord.js');
+const { PermissionOverwrites, ChannelType, GuildVoice, Collection, PermissionFlagsBits, TextInputBuilder, TextInputStyle, InteractionType, ModalBuilder, EmbedBuilder, GuildMember, ActionRowBuilder, StringSelectMenuBuilder, VoiceChannel } = require('discord.js');
 const { connect } = require('mongoose');
 const schemaVoiceChannel = require("../../Structures/Schemas/voice-channel");
 const schemaInfoVoice = require("../../Structures/Schemas/InfoVoice");
@@ -9,14 +9,15 @@ let voiceManager = new Collection();
 client.on(`interactionCreate`, async (interaction) => {
     const { guild, member, customID, channel } = interaction;
     const { ViewChannel, SendMessages, AddReactions, ReadMessageHistory, Connect } = PermissionFlagsBits;
-    const voiceChannel = member.voice.channel;
-    const Embed = new EmbedBuilder().setColor("Green");
-
-    let Parent = await schemaVoiceChannel.findOne({ Parent: channel.parentId });
-    if (!Parent) return;
-    if (!voiceChannel) return interaction.reply({ embeds: [Embed.setTitle("Tidak Ada Dalam Voice Temporary").setDescription("Anda Tidak Berada Dala Voice Temporary untuk menggunakan ini silahkan untuk membuat Voice Temporary.").setColor("Red")], ephemeral: true });
-    let dataRoom = await schemaInfoVoice.findOne({ ChannelId: voiceChannel.id })
     if (interaction.isButton()) {
+
+        const voiceChannel = member.voice.channel;
+        const Embed = new EmbedBuilder().setColor("Green");
+        if (!voiceChannel) return interaction.reply({ embeds: [Embed.setTitle("Tidak Ada Dalam Voice Temporary").setDescription("Anda Tidak Berada Dala Voice Temporary untuk menggunakan ini silahkan untuk membuat Voice Temporary.").setColor("Red")], ephemeral: true });
+        let Parent = await schemaVoiceChannel.findOne({ Parent: voiceChannel.parentId });
+        let dataRoom = await schemaInfoVoice.findOne({ ChannelId: voiceChannel.id })
+        if (!Parent || voiceChannel.id === Parent.CreateVoice) return interaction.reply({ embeds: [Embed.setTitle("Tidak Ada Dalam Voice Temporary").setDescription("Anda Tidak Berada Dala Voice Temporary untuk menggunakan ini silahkan untuk membuat Voice Temporary.").setColor("Red")], ephemeral: true });
+
         if (interaction.customId === "dc-voice") {
 
             const modal = new ModalBuilder()
@@ -31,15 +32,15 @@ client.on(`interactionCreate`, async (interaction) => {
                 .setMaxLength(4)
                 .setStyle(TextInputStyle.Short);
             const getSatuanTime = new TextInputBuilder()
-            .setCustomId("inputSatuan")
-            .setLabel(`Isi Dengan Satuan Waktu:`)
-            .setPlaceholder("Contoh : jam / menit !")
-            .setMaxLength(5)
-            .setRequired(true)
-            .setStyle(TextInputStyle.Short);
+                .setCustomId("inputSatuan")
+                .setLabel(`Isi Dengan Satuan Waktu:`)
+                .setPlaceholder("Contoh : jam / menit !")
+                .setMaxLength(5)
+                .setRequired(true)
+                .setStyle(TextInputStyle.Short);
             const Satuan = new ActionRowBuilder().addComponents(getSatuanTime);
             const Time = new ActionRowBuilder().addComponents(getTime);
-            modal.addComponents(Time,Satuan);
+            modal.addComponents(Time, Satuan);
 
             await interaction.showModal(modal);
         }
@@ -77,7 +78,7 @@ client.on(`interactionCreate`, async (interaction) => {
                 .setMaxLength(2)
                 .setStyle(TextInputStyle.Short);
 
-   
+
             const Vlimit = new ActionRowBuilder().addComponents(vlimit);
             modal.addComponents(Vlimit);
 
